@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Mail, Lock, User } from "lucide-react";
 import axios from "axios";
 
@@ -11,6 +11,8 @@ export default function Register() {
   const [role, setRole] = useState(""); 
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+
+  const navigate = useNavigate(); // 🔥 added
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,8 +37,11 @@ export default function Register() {
       setSuccess(true);
       setError(null);
 
-      // Optional: store user info without token
       localStorage.setItem("user", JSON.stringify(res.data));
+
+      // 🔥 redirect to login
+      navigate("/login");
+
     } catch (err) {
       console.log(err.response?.data);
       setError(err.response?.data?.message || "Registration failed");

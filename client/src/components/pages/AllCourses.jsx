@@ -69,14 +69,14 @@ export default function AllCourses() {
           courses.map((course) => (
             <div
               key={course.id}
-              className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition flex flex-col justify-between"
+              className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-1 flex flex-col justify-between border-l-4 border-blue-500"
             >
               <div>
-                <h2 className="text-xl font-semibold text-gray-700">
+                <h2 className="text-2xl font-bold text-gray-800">
                   {course.title || "Untitled Course"}
                 </h2>
 
-                <p className="text-gray-500 mt-2">
+                <p className="text-gray-600 mt-2">
                   {course.description || "No description"}
                 </p>
 
@@ -97,7 +97,7 @@ export default function AllCourses() {
                     href={`http://localhost:3001/${course.filePath}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 underline block mt-3"
+                    className="inline-block mt-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm hover:bg-blue-200 transition"
                   >
                     View File
                   </a>
@@ -107,24 +107,23 @@ export default function AllCourses() {
               {/* Buttons */}
               <div className="mt-4 flex flex-wrap gap-3">
                 {user?.role?.toLowerCase() === "student" && (
-                  
-                <button className="bg-teal-900 text-white px-4 py-2 rounded-md">
-                  Enroll in Course
-                </button>
+                  <button className="bg-teal-900 text-white px-4 py-2 rounded-md hover:bg-teal-800 transition">
+                    Enroll in Course
+                  </button>
                 )}
 
                 {user?.role?.toLowerCase() === "instructor" && (
                   <>
                     <button
                       onClick={() => navigate(`/courses/edit/${course.id}`)}
-                      className="bg-teal-900 text-white px-4 py-2 rounded-md"
+                      className="bg-teal-900 text-white px-4 py-2 rounded-md hover:bg-teal-950 transition"
                     >
                       Edit
                     </button>
 
                     <button
                       onClick={() => handleDelete(course.id)}
-                      className="bg-teal-900 text-white px-4 py-2 rounded-md"
+                      className="bg-teal-900 text-white px-4 py-2 rounded-md hover:bg-teal-950 transition"
                     >
                       Delete
                     </button>

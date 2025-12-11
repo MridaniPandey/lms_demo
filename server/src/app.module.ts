@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './courses/course.module';
+import { AssignmentModule } from './assignments/assignment.module';
 
 
 @Module({
@@ -21,7 +22,8 @@ import { CourseModule } from './courses/course.module';
     }),
     UserModule,
     AuthModule,
-    CourseModule, // ✅ AuthController and AuthService are included automatically
+    CourseModule,
+    AssignmentModule, // ✅ AuthController and AuthService are included automatically
   ],
   controllers: [AppController], // Only AppController here
   providers: [AppService],      // Only AppService here

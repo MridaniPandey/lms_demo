@@ -8,9 +8,11 @@ import Register from "./components/pages/Register";
 import AllCourses from "./components/pages/AllCourses";
 import AddCourse from "./components/pages/AddCourse";
 import EnrolledCourses from "./components/pages/EnrolledCourses";
-import Assignments from "./components/pages/Assignments";
  import Homepage from "./components/pages/Homepage";
  import EditCourse from "./components/pages/EditCourse";
+ import Assignments from "./components/pages/Assignments";
+ import AddAssignment from "./components/pages/AddAssignment";
+ import EditAssignment from './components/pages/EditAssignment';
 
 // import Profile from "./pages/Profile";
 function App() {
@@ -20,14 +22,18 @@ function App() {
 
       <Routes>
         <Route path="/login" element={<Login />} />
+         
         <Route path="/register" element={<Register />} />
          <Route path="/homepage" element={<Homepage />} />
         <Route path="/allcourses" element={<AllCourses />} />
         <Route path="/courses/add" element={<AddCourse />} />
          <Route path="/courses/edit/:id" element={<EditCourse />} />
+<Route path="/assignments" element={<Assignments />} />
+<Route path="/assignments/add" element={<AddAssignment/>}/>
+<Route path="/assignments/edit/:id" element={<EditAssignment />} />
 
         <Route path="/enrolled-courses" element={<EnrolledCourses />} />
-        <Route path="/assignments" element={<Assignments />} />
+        
        {/* <Route path="/" element={<Dashboard />} /> */}
         {/* <Route path="/profile" element={<Profile />} />
         Add the rest of your pages */} 

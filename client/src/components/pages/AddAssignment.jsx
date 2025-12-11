@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function AddCourse() {
+export default function AddAssignment() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
-  // const [assignment, setAssignment] = useState("");
+  const [link, setLink] = useState(""); // for URL
+  const [deadline, setDeadline] = useState(""); // for deadline
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -20,7 +21,7 @@ export default function AddCourse() {
       } else {
         localStorage.removeItem("user");
         setUser(null);
-        navigate("/login"); // redirect if no user
+        navigate("/login");
       }
     } catch (err) {
       console.warn("Failed to parse user from localStorage:", err);
@@ -36,7 +37,7 @@ export default function AddCourse() {
     e.preventDefault();
 
     if (!isInstructor) {
-      alert("Only instructors can add courses.");
+      alert("Only instructors can add assignments.");
       return;
     }
 
@@ -45,22 +46,23 @@ export default function AddCourse() {
     try {
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("desc", desc);
-      // formData.append("assignment", assignment);
-      if (file) formData.append("file", file);
+      formData.append("description", desc);
+      formData.append("link", link);
+      formData.append("deadline", deadline);
+      if (file) formData.append("files", file);
 
-      // No Authorization header needed
-      await axios.post("http://localhost:3001/courses", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+      await axios.post("http://localhost:3001/assignments", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Course Added Successfully!");
-      navigate("/allcourses"); // redirect to courses page
+      alert("Assignment Added Successfully!");
+      navigate("/assignments");
     } catch (err) {
-      console.error("Add course failed:", err);
-      alert("Failed to add course. Please try again.");
+      console.error(
+        "Add assignment failed:",
+        err.response ? err.response.data : err.message
+      );
+      alert("Failed to add assignment. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -70,27 +72,27 @@ export default function AddCourse() {
     <div className="p-8 bg-gray-100 min-h-screen">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Add New Course</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Add New Assignment</h1>
         {isInstructor && (
           <button
             type="submit"
-            form="addCourseForm"
+            form="addAssignmentForm"
             disabled={loading}
             className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md transition disabled:opacity-50"
           >
-            {loading ? "Adding..." : "Add Course"}
+            {loading ? "Adding..." : "Add Assignment"}
           </button>
         )}
       </div>
 
       {/* Form */}
       <form
-        id="addCourseForm"
+        id="addAssignmentForm"
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-xl shadow-md space-y-6 max-w-3xl mx-auto"
       >
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Course Title</label>
+          <label className="block text-gray-700 font-medium mb-1">Title</label>
           <input
             type="text"
             className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
@@ -120,16 +122,27 @@ export default function AddCourse() {
           />
         </div>
 
-        {/* <div>
-          <label className="block text-gray-700 font-medium mb-1">Assignments</label>
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Link / URL</label>
           <input
-            type="text"
+            type="url"
             className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
-            value={assignment}
-            onChange={(e) => setAssignment(e.target.value)}
-            placeholder="Assignment title or link"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            placeholder="https://example.com"
           />
-        </div> */}
+        </div>
+
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">Deadline</label>
+          <input
+            type="datetime-local"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+            required
+          />
+        </div>
       </form>
     </div>
   );
