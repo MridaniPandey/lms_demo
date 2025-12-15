@@ -24,8 +24,9 @@ npm run dev
 3.Backend
 npm run start:dev
 
-# Project Structure
 ## Project Structure
+
+```txt
 client/
  ├─ public/                # Static public files
  ├─ src/
