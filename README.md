@@ -23,3 +23,34 @@ npm run dev
 
 3.Backend
 npm run start:dev
+
+## Project Structure
+
+```txt
+client/
+ ├─ public/                # Static public files
+ ├─ src/
+ │   ├─ assets/            # Images and static assets
+ │   ├─ components/        # Reusable React components
+ │   ├─ App.jsx            # Main app component
+ │   ├─ main.jsx           # Application entry point
+ │   ├─ index.css          # Global styles
+ │   └─ App.css            # App-specific styles
+ ├─ index.html
+ ├─ package.json
+ └─ vite.config.js
+
+server/
+ ├─ src/
+ │   ├─ auth/              # Authentication and authorization
+ │   ├─ user/              # User management
+ │   ├─ courses/           # Course-related logic
+ │   ├─ assignments/       # Assignment creation and management
+ │   ├─ submissions/       # Student assignment submissions
+ │   ├─ app.module.ts      # Root application module
+ │   └─ main.ts            # Server entry point
+ ├─ uploads/               # Uploaded assignment files
+ ├─ dist/                  # Compiled output
+ ├─ package.json
+ └─ README.md
+
