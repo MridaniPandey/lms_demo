@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column,OneToMany } from 'typeorm';
+import { Enrollment } from '../enrollments/enrollment.entity'; // ⬅ Add this import
+
 
 @Entity('users')
 export class User {
@@ -16,4 +18,9 @@ export class User {
 
   @Column({ default: "student" })   // DEFAULT ROLE
   role: string;
+
+  // user.entity.ts
+@OneToMany(() => Enrollment, (e) => e.student)
+enrollments: Enrollment[];
+
 }

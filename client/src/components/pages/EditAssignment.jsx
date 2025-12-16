@@ -10,6 +10,7 @@ export default function EditAssignment() {
   const [newFiles, setNewFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Load user
   useEffect(() => {
@@ -18,6 +19,7 @@ export default function EditAssignment() {
       if (storedUser && storedUser !== "undefined" && storedUser !== "null") {
         setUser(JSON.parse(storedUser));
       } else {
+        localStorage.removeItem("user");
         navigate("/login");
       }
     } catch {
@@ -46,7 +48,6 @@ export default function EditAssignment() {
     }
 
     setLoading(true);
-
     try {
       const formData = new FormData();
       formData.append("title", assignment.title);
@@ -55,17 +56,19 @@ export default function EditAssignment() {
       formData.append("link", assignment.link || "");
 
       if (newFiles.length > 0) {
-        for (let file of newFiles) {
-          formData.append("files", file);
-        }
+        newFiles.forEach((file) => formData.append("files", file));
       }
 
       await axios.patch(`http://localhost:3001/assignments/${id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Assignment updated successfully!");
-      navigate("/assignments");
+      // Show success popup
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        navigate("/assignments");
+      }, 1500);
     } catch (err) {
       console.error("Update failed:", err);
       alert("Failed to update assignment.");
@@ -77,7 +80,7 @@ export default function EditAssignment() {
   if (!assignment) return <p className="p-8">Loading assignment...</p>;
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
+    <div className="p-8 bg-gray-100 min-h-screen relative">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-800">Edit Assignment</h1>
@@ -189,6 +192,17 @@ export default function EditAssignment() {
           )}
         </div>
       </form>
+
+      {/* Success popup */}
+      {showSuccess && (
+        <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm">
+          <div className="bg-white p-6 rounded-xl shadow-lg border border-green-300">
+            <h2 className="text-green-700 font-bold text-lg">
+              Assignment updated successfully!
+            </h2>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

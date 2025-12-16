@@ -6,8 +6,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './courses/course.module';
 import { AssignmentModule } from './assignments/assignment.module';
-
-
+import { SubmissionModule } from './submissions/submission.module';
+import { EnrollmentModule } from './enrollments/enrollment.module'
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,7 +23,9 @@ import { AssignmentModule } from './assignments/assignment.module';
     UserModule,
     AuthModule,
     CourseModule,
-    AssignmentModule, // ✅ AuthController and AuthService are included automatically
+    AssignmentModule,
+    SubmissionModule,
+     EnrollmentModule, // ✅ AuthController and AuthService are included automatically
   ],
   controllers: [AppController], // Only AppController here
   providers: [AppService],      // Only AppService here

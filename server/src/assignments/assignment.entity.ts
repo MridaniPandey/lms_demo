@@ -11,7 +11,7 @@ export class Assignment {
   @Column('text')
   description: string;
 
-  @Column('simple-array', { nullable: true })
+  @Column("text", { array: true, nullable: true })
   files: string[]; // multiple file paths
 
   @Column({ nullable: true })

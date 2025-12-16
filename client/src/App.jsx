@@ -27,12 +27,13 @@ function App() {
          <Route path="/homepage" element={<Homepage />} />
         <Route path="/allcourses" element={<AllCourses />} />
         <Route path="/courses/add" element={<AddCourse />} />
+        <Route path="/enrolledcourses" element={<EnrolledCourses />} />
+
          <Route path="/courses/edit/:id" element={<EditCourse />} />
 <Route path="/assignments" element={<Assignments />} />
 <Route path="/assignments/add" element={<AddAssignment/>}/>
 <Route path="/assignments/edit/:id" element={<EditAssignment />} />
 
-        <Route path="/enrolled-courses" element={<EnrolledCourses />} />
         
        {/* <Route path="/" element={<Dashboard />} /> */}
         {/* <Route path="/profile" element={<Profile />} />

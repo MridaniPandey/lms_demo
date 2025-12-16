@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany,OneToMany, JoinTable } from 'typeorm';
+import { Enrollment } from '../enrollments/enrollment.entity'; // ⬅ Add this import
 
 @Entity('all_courses')
 export class Course {
@@ -19,4 +20,12 @@ export class Course {
 
   @CreateDateColumn()
   createdAt: Date;
+
+ // course.entity.ts
+@OneToMany(() => Enrollment, (e) => e.course)
+enrollments: Enrollment[];
+
+@Column({ default: false })
+isDeleted: boolean;
+
 }

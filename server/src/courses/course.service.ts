@@ -1,13 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Course } from './course.entity';
+import { Enrollment } from '../enrollments/enrollment.entity'; // <-- import Enrollment
 
 @Injectable()
 export class CourseService {
   constructor(
     @InjectRepository(Course)
     private readonly courseRepository: Repository<Course>,
+
+    @InjectRepository(Enrollment) // <-- inject Enrollment repository
+    private readonly enrollmentRepository: Repository<Enrollment>,
   ) {}
 
   // Create a new course
@@ -42,8 +46,15 @@ export class CourseService {
     return this.courseRepository.save(updatedCourse);
   }
 
-  // Delete a course by ID (returns TypeORM DeleteResult)
-  async deleteCourse(id: string): Promise<DeleteResult> {
-    return this.courseRepository.delete(id);
+  // Delete a course by ID (safely removes related enrollments first)
+  async deleteCourse(id: string) {
+    const course = await this.courseRepository.findOne({ where: { id: parseInt(id) } });
+    if (!course) throw new NotFoundException(`Course with id ${id} not found`);
+
+    // Remove related enrollments first
+    await this.enrollmentRepository.delete({ course: { id: course.id } });
+
+    // Remove the course itself
+    return this.courseRepository.remove(course);
   }
 }

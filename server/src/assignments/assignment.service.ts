@@ -53,4 +53,14 @@ export class AssignmentService {
   async deleteAssignment(id: string): Promise<DeleteResult> {
     return this.assignmentRepository.delete(id);
   }
+
+  // Change the method to accept string[] instead of File[]
+async uploadFiles(assignmentId: string, filePaths: string[]): Promise<Assignment> {
+  const assignment = await this.getAssignmentById(assignmentId);
+  if (!assignment) throw new NotFoundException(`Assignment with ID ${assignmentId} not found`);
+
+  assignment.files = [...(assignment.files ?? []), ...filePaths];
+  return this.assignmentRepository.save(assignment);
+}
+
 }
