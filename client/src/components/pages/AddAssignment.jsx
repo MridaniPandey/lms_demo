@@ -104,8 +104,8 @@ export default function AddAssignment() {
             
             {/* Header and Action Button */}
             <div className="flex justify-between items-center mb-10 border-b pb-4 border-indigo-200">
-              <h1 className="text-4xl font-extrabold text-indigo-800 tracking-tight">
-                📝 Create New Assignment
+              <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+                 Create New Assignment
               </h1>
               
               <button
@@ -113,7 +113,7 @@ export default function AddAssignment() {
                 form="addAssignmentForm"
                 disabled={loading}
                 // Submission button uses Green 600
-                className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-lg transition disabled:opacity-50 disabled:bg-gray-500"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 hover:shadow-2xl transform hover:-translate-y-0.5 duration-200 ease-in-out text-white px-6 py-3 rounded-xl shadow-lg transition disabled:opacity-50 disabled:bg-gray-500"
               >
                 {loading ? "Publishing..." : "Publish Assignment"}
               </button>
@@ -195,7 +195,7 @@ export default function AddAssignment() {
 
       {/* --- SUCCESS MODAL --- */}
       {showSuccessModal && (
-        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black bg-opacity-40 backdrop-blur-sm">
+        <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/30 bg-opacity-40 backdrop-blur-sm">
           <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center transform transition-all duration-300 scale-100 border-t-4 border-green-600">
             <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-gray-800">Assignment Published</h2>

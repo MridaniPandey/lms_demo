@@ -9,6 +9,9 @@ export default function AllCourses() {
   const [user, setUser] = useState(null);
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+const [deleteId, setDeleteId] = useState(null);
+
 
   // Load logged-in user from localStorage
   useEffect(() => {
@@ -27,7 +30,7 @@ export default function AllCourses() {
       } catch (err) {
         console.error("Error fetching courses:", err);
       } finally {
-        setLoading(false); // ✅ ensures loading is removed for everyone
+        setLoading(false); //  ensures loading is removed for everyone
       }
     };
 
@@ -71,25 +74,23 @@ export default function AllCourses() {
   // Delete course (instructor only)
 // Delete course (instructor only)
 const handleDelete = async (id) => {
-  const confirmDelete = window.confirm("Are you sure you want to delete this course?");
-  if (!confirmDelete) return;
-
   try {
     const res = await axios.delete(`http://localhost:3001/courses/${id}`);
-    
+
     if (res.status === 200 || res.status === 204) {
-      // Successfully deleted
       setCourses((prev) => prev.filter((c) => c.id !== id));
       setEnrolledCourses((prev) => prev.filter((c) => c.id !== id));
-      alert("Course deleted successfully!");
+      setShowDeleteModal(false);
+      setDeleteId(null);
     } else {
-      alert("Failed to delete course. Server returned status: " + res.status);
+      alert("Failed to delete course.");
     }
   } catch (err) {
     console.error("Delete failed:", err);
-    alert("Failed to delete course. See console for details.");
+    alert("Failed to delete course.");
   }
 };
+
 
 
   if (loading) {
@@ -213,13 +214,21 @@ const handleDelete = async (id) => {
                         >
                           <Edit size={16} /> Edit
                         </button>
-
                         <button
-                          onClick={() => handleDelete(course.id)}
-                          className="flex-1 flex items-center justify-center gap-1 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition text-sm font-medium"
-                        >
-                          <Trash2 size={16} /> Delete
-                        </button>
+  onClick={() => {
+    setDeleteId(course.id);
+    setShowDeleteModal(true);
+  }}
+  className="flex-1 flex items-center justify-center gap-1 
+             bg-red-600 text-white px-4 py-2 rounded-lg 
+             hover:bg-red-700 transition text-sm font-medium"
+>
+  <Trash2 size={16} /> Delete
+</button>
+
+
+                        
+
                       </>
                     )}
                   </div>
@@ -229,6 +238,33 @@ const handleDelete = async (id) => {
           )}
         </div>
       </div>
+      {showDeleteModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center 
+                  bg-black/30 backdrop-blur-sm p-4">
+    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+      <h3 className="text-lg font-bold text-gray-800 mb-4">
+        Confirm Deletion
+      </h3>
+      <p className="text-gray-600 mb-6">
+        Are you sure you want to delete this course?
+      </p>
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() => setShowDeleteModal(false)}
+          className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => handleDelete(deleteId)}
+          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

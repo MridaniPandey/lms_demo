@@ -69,8 +69,8 @@ export default function Register() {
           {/* Name */}
           <div>
             <label className="text-gray-800 font-medium">Full Name</label>
-            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-green-300 bg-gray-50">
-              <User size={20} className="text-green-400" />
+            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-yellow-300 bg-gray-50">
+              <User size={20} className="text-yellow-500" />
               <input
                 type="text"
                 value={name}
@@ -85,8 +85,8 @@ export default function Register() {
           {/* Email */}
           <div>
             <label className="text-gray-800 font-medium">Email Address</label>
-            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-green-300 bg-gray-50">
-              <Mail size={20} className="text-green-400" />
+            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-yellow-300 bg-gray-50">
+              <Mail size={20} className="text-yellow-500" />
               <input
                 type="email"
                 value={email}
@@ -101,8 +101,8 @@ export default function Register() {
           {/* Password */}
           <div>
             <label className="text-gray-800 font-medium">Password</label>
-            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-green-300 bg-gray-50">
-              <Lock size={20} className="text-green-400" />
+            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-yellow-300 bg-gray-50">
+              <Lock size={20} className="text-yellow-500" />
               <input
                 type="password"
                 value={password}
@@ -117,8 +117,8 @@ export default function Register() {
           {/* Confirm Password */}
           <div>
             <label className="text-gray-800 font-medium">Confirm Password</label>
-            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-green-300 bg-gray-50">
-              <Lock size={20} className="text-green-400" />
+            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-yellow-300 bg-gray-50">
+              <Lock size={20} className="text-yellow-500" />
               <input
                 type="password"
                 value={confirmPassword}
@@ -133,13 +133,14 @@ export default function Register() {
           {/* Role */}
           <div>
             <label className="flex gap-4 mb-4">Set role:</label>
+            <div className="flex gap-4">
             <button
               type="button"
               onClick={() => setRole("student")}
               className={`px-4 py-2 rounded-lg border 
                 ${role === "student" 
-                  ? "bg-green-500 text-white border-green-600" 
-                  : "bg-gray-200 text-gray-700 border-gray-300"} 
+                  ? "bg-indigo-600 text-black border-indigo-900 " 
+                  : "bg-gray-200 text-gray-700 border-indigo-300"} 
                 transition`}
             >
               Student
@@ -150,17 +151,18 @@ export default function Register() {
               onClick={() => setRole("instructor")}
               className={`px-4 py-2 rounded-lg border 
                 ${role === "instructor" 
-                  ? "bg-green-500 text-white border-green-600" 
-                  : "bg-gray-200 text-gray-700 border-gray-300"} 
+                  ? "bg-indigo-600 text-white border-indigo-900" 
+                  : "bg-gray-200 text-gray-700 border-indigo-300"} 
                 transition`}
             >
               Instructor
             </button>
+            </div>
           </div>
 
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-3 bg-green-600 text-white py-3 rounded-2xl shadow-md hover:bg-green-700 transition active:scale-95"
+            className="w-full flex items-center justify-center gap-3 dark:bg-yellow-300 text-white py-3 rounded-2xl shadow-md hover:bg-indigo-600 transition active:scale-95"
           >
             Register
           </button>
@@ -168,7 +170,7 @@ export default function Register() {
 
         <p className="text-gray-600 text-sm text-center mt-4">
           Already have an account?{" "}
-          <Link to="/login" className="text-green-600 font-medium ml-1 hover:underline">
+          <Link to="/login" className="text-yellow-400 font-medium ml-1 hover:underline">
             Login
           </Link>
         </p>

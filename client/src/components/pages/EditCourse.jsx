@@ -77,15 +77,17 @@ export default function EditCourse() {
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen relative">
-      <div className="flex justify-between items-center mb-8">
+    <div className="relative">
+    <div className="p-8 bg-gray-50 min-h-screen ">
+       <div className="max-w-4xl mx-auto">
+      <div className="flex justify-between items-center mb-10 border-b pb-4 border-indigo-200">
         <h1 className="text-3xl font-bold text-gray-800">Edit Course</h1>
 
         <button
           type="submit"
           form="editCourseForm"
           disabled={loading}
-          className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md transition disabled:opacity-50"
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 hover:shadow-2xl transform hover:-translate-y-0.5 duration-200 ease-in-out text-white px-6 py-3 rounded-xl shadow-lg transition disabled:opacity-50 disabled:bg-gray-500"
         >
           {loading ? "Saving..." : "Save Changes"}
         </button>
@@ -94,13 +96,13 @@ export default function EditCourse() {
       <form
         id="editCourseForm"
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-xl shadow-md space-y-6 max-w-3xl mx-auto"
+        className="bg-white p-8 rounded-2xl shadow-xl space-y-6 border-t-8 border-indigo-600"
       >
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Course Title</label>
+          <label className="block text-gray-700 font-semibold mb-2">Course Title</label>
           <input
             type="text"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -108,10 +110,10 @@ export default function EditCourse() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Description</label>
+          <label className="block text-gray-700 font-semibold mb-2">Description</label>
           <textarea
             rows="4"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition"
             value={desc}
             onChange={(e) => setDesc(e.target.value)}
             required
@@ -119,15 +121,15 @@ export default function EditCourse() {
         </div>
 
         <div>
-          <label className="block text-gray-700 font-medium mb-1">Upload File</label>
+          <label className="block text-gray-700 font-semibold mb-2">Upload File</label>
           <input
             type="file"
-            className="w-full border border-gray-300 p-2 rounded-lg bg-gray-50"
+            className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none file:mr-4 file:py-3 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition duration-150"
             onChange={(e) => setFile(e.target.files[0])}
           />
         </div>
       </form>
-
+      </div>
       {showSuccess && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm">
           <div className="bg-white p-6 rounded-xl shadow-lg border border-green-300">
@@ -137,6 +139,7 @@ export default function EditCourse() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

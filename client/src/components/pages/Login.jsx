@@ -55,8 +55,8 @@ localStorage.setItem("user", JSON.stringify(response.data));
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="text-gray-800 font-medium">Email Address</label>
-            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-green-300 bg-gray-50">
-              <Mail size={20} className="text-green-400" />
+            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-yellow-300 bg-gray-50">
+              <Mail size={20} className="text-yellow-500" />
               <input
                 type="email"
                 value={email}
@@ -70,8 +70,8 @@ localStorage.setItem("user", JSON.stringify(response.data));
 
           <div>
             <label className="text-gray-800 font-medium">Password</label>
-            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-green-300 bg-gray-50">
-              <Lock size={20} className="text-green-400" />
+            <div className="flex items-center gap-3 border rounded-xl px-4 py-3 mt-2 focus-within:ring-2 focus-within:ring-yellow-300 bg-gray-50">
+              <Lock size={20} className="text-yellow-500" />
               <input
                 type="password"
                 value={password}
@@ -87,7 +87,7 @@ localStorage.setItem("user", JSON.stringify(response.data));
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="text-green-600 font-medium hover:underline"
+              className="text-yellow-500 font-medium hover:underline"
             >
               Register Here
             </Link>
@@ -96,7 +96,7 @@ localStorage.setItem("user", JSON.stringify(response.data));
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 bg-green-800 text-white py-3 rounded-2xl shadow-md hover:bg-green-700 transition active:scale-95 disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-3 dark:bg-yellow-300 text-white py-3 rounded-2xl shadow-md hover:bg-indigo-600 transition active:scale-95 disabled:opacity-50"
           >
             <LogIn size={20} /> {loading ? "Logging in..." : "Login"}
           </button>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Clock } from "lucide-react";
+
 import axios from "axios";
 
 export default function EditAssignment() {
@@ -80,16 +82,18 @@ export default function EditAssignment() {
   if (!assignment) return <p className="p-8">Loading assignment...</p>;
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen relative">
+    <div className="relative">
+    <div className="p-8 bg-gray-50 min-h-screen ">
+      <div className="max-w-4xl mx-auto">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Edit Assignment</h1>
+        <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">Edit Assignment</h1>
 
         <button
           type="submit"
           form="editAssignmentForm"
           disabled={loading}
-          className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md transition disabled:opacity-50"
+          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 hover:shadow-2xl transform hover:-translate-y-0.5 duration-200 ease-in-out text-white px-6 py-3 rounded-xl shadow-lg transition disabled:opacity-50 disabled:bg-gray-500"
         >
           {loading ? "Saving..." : "Save Changes"}
         </button>
@@ -99,7 +103,7 @@ export default function EditAssignment() {
       <form
         id="editAssignmentForm"
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-xl shadow-md space-y-6 max-w-3xl mx-auto"
+        className="bg-white p-8 rounded-2xl shadow-xl space-y-6 border-t-8 border-indigo-600"
       >
         {/* Title */}
         <div>
@@ -110,7 +114,7 @@ export default function EditAssignment() {
             onChange={(e) =>
               setAssignment({ ...assignment, title: e.target.value })
             }
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-500  focus:border-blue-500 outline-none transition"
             required
           />
         </div>
@@ -124,40 +128,9 @@ export default function EditAssignment() {
               setAssignment({ ...assignment, description: e.target.value })
             }
             rows="4"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition"
             required
           ></textarea>
-        </div>
-
-        {/* Deadline */}
-        <div>
-          <label className="block text-gray-700 font-medium mb-1">Deadline</label>
-          <input
-            type="datetime-local"
-            value={
-              assignment.deadline
-                ? new Date(assignment.deadline).toISOString().slice(0, 16)
-                : ""
-            }
-            onChange={(e) =>
-              setAssignment({ ...assignment, deadline: e.target.value })
-            }
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
-          />
-        </div>
-
-        {/* Link */}
-        <div>
-          <label className="block text-gray-700 font-medium mb-1">Reference Link</label>
-          <input
-            type="text"
-            value={assignment.link || ""}
-            onChange={(e) =>
-              setAssignment({ ...assignment, link: e.target.value })
-            }
-            placeholder="https://example.com"
-            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-200 outline-none"
-          />
         </div>
 
         {/* Files */}
@@ -167,8 +140,8 @@ export default function EditAssignment() {
             type="file"
             multiple
             onChange={(e) => setNewFiles([...e.target.files])}
-            className="w-full border border-gray-300 p-2 rounded-lg bg-gray-50"
-          />
+            className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none file:mr-4 file:py-3 file:px-4 file:rounded-l-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition duration-150"
+            />
 
           {/* Current files */}
           {assignment.files && assignment.files.length > 0 && (
@@ -191,8 +164,45 @@ export default function EditAssignment() {
             </div>
           )}
         </div>
-      </form>
 
+        {/* Link */}
+        <div>
+          <label className="block text-gray-700 font-medium mb-1">External Link / URL (Optional)</label>
+          <input
+            type="text"
+            value={assignment.link || ""}
+            onChange={(e) =>
+              setAssignment({ ...assignment, link: e.target.value })
+            }
+            placeholder="https://example.com"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          />
+        </div>
+
+        {/* Deadline */}
+        <div className="bg-pink-50 p-4 rounded-lg border border-pink-200">
+          <label className=" text-pink-800 font-bold mb-2 flex items-center">
+            <Clock size={20} className="mr-2"/> Set Submission Deadline (Required)
+            </label>
+          <input
+            type="datetime-local"
+            value={
+              assignment.deadline
+                ? new Date(assignment.deadline).toISOString().slice(0, 16)
+                : ""
+            }
+            onChange={(e) =>
+              setAssignment({ ...assignment, deadline: e.target.value })
+            }
+            className="w-full border border-gray-300 p-3 rounded-lg focus:ring focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          />
+        </div>
+
+        
+
+        
+      </form>
+      </div>
       {/* Success popup */}
       {showSuccess && (
         <div className="absolute inset-0 flex items-center justify-center bg-white/30 backdrop-blur-sm">
@@ -203,6 +213,7 @@ export default function EditAssignment() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

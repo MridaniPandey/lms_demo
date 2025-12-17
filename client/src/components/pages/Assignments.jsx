@@ -21,6 +21,8 @@ export default function Assignments() {
   const [showSubmissionsModal, setShowSubmissionsModal] = useState(false);
   const [submissions, setSubmissions] = useState([]);
   const [currentAssignment, setCurrentAssignment] = useState(null);
+// SUCCESS MODAL (Submission)
+const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Load user
   useEffect(() => {
@@ -90,7 +92,7 @@ export default function Assignments() {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      alert("Submission uploaded successfully!");
+      setShowSuccessModal(true);
       setShowUpload({ ...showUpload, [assignmentId]: false });
       setSelectedFiles({ ...selectedFiles, [assignmentId]: [] });
       if (fileInputs.current[assignmentId]) {
@@ -132,15 +134,15 @@ export default function Assignments() {
       >
         <div className="p-8 max-w-6xl mx-auto">
           {/* --- Header (Reverted) --- */}
-          <div className="flex justify-between items-center mb-10 border-b pb-4">
-            <h1 className="text-3xl font-bold text-gray-800">
+          <div className="flex justify-between items-center mb-10 border-b pb-4 border-gray-300">
+            <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight">
               Assignments
             </h1>
 
             {isInstructor && (
               <button
                 onClick={() => navigate("/assignments/add")}
-                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition"
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl hover:shadow-2xl transition transform hover:-translate-y-0.5 duration-200 ease-in-out"
               >
                 <PlusCircle size={20} /> New Assignment
               </button>
@@ -158,7 +160,8 @@ export default function Assignments() {
                 return (
                     <div 
                         key={assignment.id} 
-                        className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-between border border-gray-200"
+                        className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-t-8 border-indigo-500 flex flex-col justify-between"
+                
                     >
                         <div>
                             <h2 className="text-xl font-bold text-gray-800 mb-2">{assignment.title}</h2>
@@ -168,7 +171,7 @@ export default function Assignments() {
                                 <Clock size={16} className="mr-2" /> 
                                 <span>{isLate ? 'Deadline Passed:' : 'Due Date:'} {deadlineString}</span>
                             </div>
-                            {/* ✅ LINK & FILE — VISIBLE TO BOTH */}
+                            {/*  LINK & FILE — VISIBLE TO BOTH */}
   <div className="flex gap-2 mt-3">
     {assignment.link && (
       <a
@@ -198,7 +201,7 @@ export default function Assignments() {
                             {/* INSTRUCTOR ACTIONS */}
                             {isInstructor && (
                                 <div className="flex flex-wrap gap-2">
-                                    <button onClick={() => navigate(`/assignments/edit/${assignment.id}`)} className="flex-1 flex items-center justify-center gap-1 bg-gray-200 text-gray-700 px-3 py-2 rounded-lg hover:bg-gray-300 transition text-sm font-medium"> 
+                                    <button onClick={() => navigate(`/assignments/edit/${assignment.id}`)} className="flex-1 flex items-center justify-center gap-1 bg-yellow-500 text-white px-3 py-2 rounded-lg hover:bg-gray-300 transition text-sm font-medium"> 
                                         <Edit size={16} /> Edit 
                                     </button>
                                     <button onClick={() => handleConfirmDelete(assignment.id)} className="flex-1 flex items-center justify-center gap-1 bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition text-sm font-medium"> 
@@ -230,7 +233,7 @@ export default function Assignments() {
                                     {/* Upload Button */}
                                     <button
                                         onClick={() => setShowUpload({ ...showUpload, [assignment.id]: !showUpload[assignment.id] })}
-                                        className="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition font-semibold shadow-md"
+                                        className="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700 transition font-semibold shadow-md"
                                         disabled={isLate}
                                     >
                                         <UploadCloud size={20} /> 
@@ -274,36 +277,40 @@ export default function Assignments() {
 
       {/* --- Delete Modal (Reverted) --- */}
       {showDeleteModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-4">Confirm Deletion</h3>
-            <p className="text-gray-600 mb-6">
-              Are you sure you want to delete this assignment?
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={() => setShowDeleteModal(false)}
-                className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => handleDelete(deleteId)}
-                className="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 z-50 flex items-center justify-center 
+                  bg-black/30 backdrop-blur-sm p-4">
+    <div className="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
+      <h3 className="text-lg font-bold text-gray-800 mb-4">
+        Confirm Deletion
+      </h3>
+      <p className="text-gray-600 mb-6">
+        Are you sure you want to delete this assignment?
+      </p>
+      <div className="flex justify-end gap-3">
+        <button
+          onClick={() => setShowDeleteModal(false)}
+          className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => handleDelete(deleteId)}
+          className="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
 
       {/* --- SUBMISSIONS MODAL (Reverted to original List View) --- */}
       {/* --- SUBMISSIONS MODAL (Table View) --- */}
 {showSubmissionsModal && (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-    <div className="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+    <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl p-6 ">
       <div className="flex justify-between items-center border-b pb-3 mb-4">
         <h3 className="text-xl font-bold text-gray-800">Submissions for: {currentAssignment}</h3>
         <button onClick={() => setShowSubmissionsModal(false)} className="text-gray-500 hover:text-gray-800">
@@ -316,21 +323,21 @@ export default function Assignments() {
       ) : (
         <table className="w-full table-auto border-collapse border border-gray-300 text-left">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 px-3 py-2">S.No</th>
-              <th className="border border-gray-300 px-3 py-2">Student Name</th>
-              <th className="border border-gray-300 px-3 py-2">Assignment Title</th>
-              <th className="border border-gray-300 px-3 py-2">Files Uploaded</th>
-              <th className="border border-gray-300 px-3 py-2">Submitted Date</th>
+            <tr className="bg-blue-100">
+              <th className="border border-black-300 px-3 py-2">S.No</th>
+              <th className="border border-black-300 px-3 py-2">Student Name</th>
+              <th className="border border-black-300 px-3 py-2">Assignment Title</th>
+              <th className="border border-black-300 px-3 py-2">Files Uploaded</th>
+              <th className="border border-black-300 px-3 py-2">Submitted Date</th>
             </tr>
           </thead>
           <tbody>
             {submissions.map((sub, index) => (
               <tr key={sub.id || index} className="even:bg-gray-50">
-                <td className="border border-gray-300 px-3 py-2">{index + 1}</td>
-                <td className="border border-gray-300 px-3 py-2">{sub.studentFullName}</td>
-                <td className="border border-gray-300 px-3 py-2">{currentAssignment}</td>
-                <td className="border border-gray-300 px-3 py-2">
+                <td className="border border-black-300 px-3 py-2">{index + 1}</td>
+                <td className="border border-black-300 px-3 py-2">{sub.studentFullName}</td>
+                <td className="border border-black-300 px-3 py-2">{currentAssignment}</td>
+                <td className="border border-black-300 px-3 py-2">
                   {sub.files && sub.files.length > 0 ? (
                     sub.files.map((file, i) => (
                       <div key={i}>
@@ -348,7 +355,7 @@ export default function Assignments() {
                     <span className="text-gray-500 text-sm">No file</span>
                   )}
                 </td>
-                 <td className="border border-gray-300 px-3 py-2">
+                 <td className="border border-black-300 px-3 py-2">
           {sub.submittedAt? new Date(sub.submittedAt).toLocaleString() : "N/A"}
         </td>
               </tr>
@@ -360,15 +367,39 @@ export default function Assignments() {
       <div className="mt-4 pt-4 border-t border-gray-100">
         <button
           onClick={() => setShowSubmissionsModal(false)}
-          className="w-full px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600 transition font-semibold"
+          className="w-full px-4 py-2 text-white bg-indigo-700 rounded-lg hover:bg-indigo-800 transition font-semibold"
         >
           Close
         </button>
       </div>
     </div>
   </div>
+
+)}
+{showSuccessModal && (
+  <div className="fixed inset-0 flex justify-center items-center z-50 bg-black/30 backdrop-blur-smbg-opacity-40 backdrop-blur-sm">
+    <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm text-center border-t-4 border-green-600">
+      <CheckCircle className="w-12 h-12 text-green-600 mx-auto mb-4" />
+
+      <h2 className="text-2xl font-bold text-gray-800">
+        Assignment Submitted
+      </h2>
+
+      <p className="text-gray-600 mt-2">
+        Your assignment has been submitted successfully.
+      </p>
+
+      <button
+        onClick={() => setShowSuccessModal(false)}
+        className="mt-6 px-6 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition shadow-md"
+      >
+        Close
+      </button>
+    </div>
+  </div>
 )}
 
     </div>
+    
   );
 }
